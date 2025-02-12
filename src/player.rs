@@ -1,4 +1,4 @@
-use crate::constructor::Constructor;
+use crate::constructor::GlobalVariable;
 
 use sdl2::keyboard::Scancode;
 
@@ -10,7 +10,7 @@ pub struct Player {
     pub speed: i32,
 }
 
-pub fn move_player(constructor: &mut Constructor) {
+pub fn move_player(constructor: &mut GlobalVariable) {
     let keyboard_state = constructor.event_pump.keyboard_state();
     constructor.player.dir_vector = (0, 0);
 

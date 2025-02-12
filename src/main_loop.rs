@@ -1,29 +1,31 @@
 use crate::player::move_player;
-use crate::Constructor;
+use crate::GlobalVariable;
 
 use sdl2::image::LoadTexture;
 use sdl2::rect::Rect;
-use sdl2::render::Canvas;
-use sdl2::video::Window;
+use sdl2::render::{Canvas, Texture, TextureCreator};
 
-pub fn game_loop(canvas: &mut Canvas<Window>, mut construct: &mut Constructor) {
-    construct.i += 1;
+use sdl2::video::{Window, WindowContext};
 
-    let texture_creator = canvas.texture_creator(); // Crée un nouvel objet pour créer des textures
-    let texture = texture_creator
-        .load_texture("assets/placeholder.png") // Charge une texture depuis un fichier
-        .unwrap();
+pub fn game_loop(
+    canvas: &mut Canvas<Window>,
+    construct: &mut (
+        &mut GlobalVariable,
+        (Vec<Texture>, &TextureCreator<WindowContext>),
+    ),
+) {
+    construct.0.i += 1;
 
-    move_player(&mut construct); // Déplace le joueur en fonction des inputs
-
+    move_player(&mut construct.0); // Déplace le joueur en fonction des inputs
+    let texture = &construct.1 .0[0];
     // Dessine la texture sur le canvas par rapport aux changements de coordonnés effectués avec move_player()
     canvas
         .copy(
             &texture,
             None,
             Rect::new(
-                construct.player.x,
-                construct.player.y,
+                construct.0.player.x,
+                construct.0.player.y,
                 ((texture.query().width) as f32 * 0.1) as u32,
                 ((texture.query().height) as f32 * 0.1) as u32,
             ),
