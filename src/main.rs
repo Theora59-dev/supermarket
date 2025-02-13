@@ -1,5 +1,3 @@
-extern crate sdl2;
-
 mod constructor;
 mod consts;
 mod events;
@@ -10,14 +8,10 @@ use constructor::*;
 use consts::*;
 
 use sdl2::event::Event;
-use sdl2::gfx::framerate::FPSManager;
 use sdl2::image::LoadTexture;
 use sdl2::keyboard::Keycode;
-use sdl2::libc::fputs;
 use sdl2::pixels::Color;
-use sdl2::sys::gfx::framerate::SDL_getFramerate;
 use sdl2::video::Window;
-use std::ops::DerefMut;
 use std::time::Instant;
 
 pub fn main() {
@@ -55,9 +49,6 @@ pub fn main() {
 
     let mut constructor = (&mut global_variable, texture_setup);
 
-    let mut fps_manager = FPSManager::new();
-    fps_manager.set_framerate(200).unwrap(); // Limite physique à 200 FPS pour la plupart des PC
-
     // Boucle de jeu
     'running: loop {
         let now = Instant::now();
@@ -85,15 +76,11 @@ pub fn main() {
             }
         }
 
-        let current_fps = fps_manager.get_framerate();
-
-        println!("Delta Secs: {}", 1.0 / constructor.0.dt);
-        println!("FPS: {}", current_fps);
+        println!("FPS: {}", 1.0 / constructor.0.dt);
         // Exécution de la boucle de jeu
         main_loop::game_loop(&mut canvas, &mut constructor);
 
         // Mise à jour de l'écran de jeu
         canvas.present();
-        fps_manager.delay();
     }
 }

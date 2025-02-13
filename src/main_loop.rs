@@ -1,7 +1,6 @@
 use crate::player::move_player;
 use crate::GlobalVariable;
 
-use sdl2::image::LoadTexture;
 use sdl2::rect::Rect;
 use sdl2::render::{Canvas, Texture, TextureCreator};
 

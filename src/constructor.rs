@@ -1,5 +1,4 @@
 use crate::player::Player;
-use sdl2::image::LoadTexture;
 use sdl2::video::Window;
 use sdl2::{render::Canvas, EventPump, Sdl};
 
@@ -11,7 +10,7 @@ pub struct GlobalVariable {
 }
 
 impl GlobalVariable {
-    pub fn new(sdl_context: Sdl, canvas: &Canvas<Window>) -> Result<Self, String> {
+    pub fn new(sdl_context: Sdl, _canvas: &Canvas<Window>) -> Result<Self, String> {
         Ok(Self {
             dt: 0.0, // Initialisation de dt à 0.0 pour éviter de futures bugs
             event_pump: sdl_context.event_pump().unwrap(),
