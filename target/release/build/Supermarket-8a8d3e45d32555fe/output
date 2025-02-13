@@ -1,0 +1,3 @@
+cargo:rustc-link-lib=SDL2
+cargo:rustc-link-lib=SDL2main
+cargo:rustc-link-lib=SDL2_image

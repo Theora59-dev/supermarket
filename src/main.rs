@@ -76,7 +76,7 @@ pub fn main() {
             }
         }
 
-        println!("FPS: {}", 1.0 / constructor.0.dt);
+        //println!("FPS: {}", 1.0 / constructor.0.dt);
         // Exécution de la boucle de jeu
         main_loop::game_loop(&mut canvas, &mut constructor);
 

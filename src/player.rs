@@ -2,6 +2,13 @@ use crate::constructor::GlobalVariable;
 
 use sdl2::keyboard::Scancode;
 
+struct Camera {
+    pub x: i32,
+    pub y: i32,
+    pub w: i32,
+    pub h: i32
+}
+
 #[derive(Debug, Clone)]
 pub struct Player {
     pub x: i32,
@@ -15,43 +22,50 @@ pub fn move_player(constructor: &mut GlobalVariable) {
     constructor.player.dir_vector = (0, 0);
 
     // Calculer la direction horizontale
-    if keyboard_state.is_scancode_pressed(Scancode::A)
-        && keyboard_state.is_scancode_pressed(Scancode::D)
-    {
-        // Les deux touches "A" et "D" sont enfoncées, donc la direction horizontale est nulle
-        constructor.player.dir_vector.0 = 0
-    } else {
-        if keyboard_state.is_scancode_pressed(Scancode::A) {
-            // La touche "A" est enfoncée, donc la direction horizontale est vers la gauche
-            constructor.player.dir_vector.0 = -1;
-        }
-        if keyboard_state.is_scancode_pressed(Scancode::D) {
-            // La touche "D" est enfoncée, donc la direction horizontale est vers la droite
-            constructor.player.dir_vector.0 = 1;
-        }
-    }
+    // if keyboard_state.is_scancode_pressed(Scancode::A)
+    //     && keyboard_state.is_scancode_pressed(Scancode::D)
+    // {
+    //     // Les deux touches "A" et "D" sont enfoncées, donc la direction horizontale est nulle
+    //     constructor.player.dir_vector.0 = 0
+    // } else {
+    //     if keyboard_state.is_scancode_pressed(Scancode::A) {
+    //         // La touche "A" est enfoncée, donc la direction horizontale est vers la gauche
+    //         constructor.player.dir_vector.0 = -1;
+    //     }
+    //     if keyboard_state.is_scancode_pressed(Scancode::D) {
+    //         // La touche "D" est enfoncée, donc la direction horizontale est vers la droite
+    //         constructor.player.dir_vector.0 = 1;
+    //     }
+    // }
+
+    // Ajout au vecteur des mouvements horizontaux. Si les deux touches sont pressées, le mouvement s'annule dans l'équation et le vecteur horizontal est donc nul.
+    constructor.player.dir_vector.0 = -(keyboard_state.is_scancode_pressed(Scancode::A) as i8) + (keyboard_state.is_scancode_pressed(Scancode::D) as i8);
 
     // Calculer la direction verticale
-    if keyboard_state.is_scancode_pressed(Scancode::W)
-        && keyboard_state.is_scancode_pressed(Scancode::S)
-    {
-        // Les deux touches "W" et "S" sont enfoncées, donc la direction verticale est nulle
-        constructor.player.dir_vector.1 = 0
-    } else {
-        if keyboard_state.is_scancode_pressed(Scancode::W) {
-            // La touche "W" est enfoncée, donc la direction verticale est vers le haut
-            constructor.player.dir_vector.1 = -1;
-        }
-        if keyboard_state.is_scancode_pressed(Scancode::S) {
-            // La touche "S" est enfoncée, donc la direction verticale est vers le bas
-            constructor.player.dir_vector.1 = 1;
-        }
-    }
+    // if keyboard_state.is_scancode_pressed(Scancode::W)
+    //     && keyboard_state.is_scancode_pressed(Scancode::S)
+    // {
+    //     // Les deux touches "W" et "S" sont enfoncées, donc la direction verticale est nulle
+    //     constructor.player.dir_vector.1 = 0
+    // } else {
+    //     if keyboard_state.is_scancode_pressed(Scancode::W) {
+    //         // La touche "W" est enfoncée, donc la direction verticale est vers le haut
+    //         constructor.player.dir_vector.1 = -1;
+    //     }
+    //     if keyboard_state.is_scancode_pressed(Scancode::S) {
+    //         // La touche "S" est enfoncée, donc la direction verticale est vers le bas
+    //         constructor.player.dir_vector.1 = 1;
+    //     }
+    // }
+
+    // Ajout au vecteur des mouvements verticaux. Si les deux touches sont pressées, le mouvement s'annule dans l'équation et le vecteur vertical est donc nul.
+    constructor.player.dir_vector.1 = -(keyboard_state.is_scancode_pressed(Scancode::W) as i8) + (keyboard_state.is_scancode_pressed(Scancode::S) as i8);
+
+    
+    println!("W:{} S:{} A:{} D:{} x:{} y:{}", -(keyboard_state.is_scancode_pressed(Scancode::W) as i8), (keyboard_state.is_scancode_pressed(Scancode::S) as i8), -(keyboard_state.is_scancode_pressed(Scancode::A) as i8), (keyboard_state.is_scancode_pressed(Scancode::D) as i8), constructor.player.dir_vector.0, constructor.player.dir_vector.1);
 
     // Normaliser le vecteur directionnel
-    let length = ((constructor.player.dir_vector.0.pow(2) + constructor.player.dir_vector.1.pow(2))
-        as f32)
-        .sqrt();
+    let length = ((constructor.player.dir_vector.0.pow(2) + constructor.player.dir_vector.1.pow(2)) as f32).sqrt();
     if length > 0.0 {
         let normalized_dir = (
             (constructor.player.dir_vector.0 as f32 / length) as f32,

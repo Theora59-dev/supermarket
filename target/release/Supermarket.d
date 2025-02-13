@@ -1,0 +1,1 @@
+/home/noa/supermarket/target/release/Supermarket: /home/noa/supermarket/assets/placeholder.png /home/noa/supermarket/build.rs /home/noa/supermarket/src/constructor.rs /home/noa/supermarket/src/consts.rs /home/noa/supermarket/src/events.rs /home/noa/supermarket/src/main.rs /home/noa/supermarket/src/main_loop.rs /home/noa/supermarket/src/player.rs

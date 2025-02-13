@@ -1,0 +1,11 @@
+/home/noa/supermarket/target/debug/build/sdl2-sys-a066b7c4c26b1a95/out/build/CMakeFiles/sdl_headers_copy.dir
+/home/noa/supermarket/target/debug/build/sdl2-sys-a066b7c4c26b1a95/out/build/CMakeFiles/SDL2main.dir
+/home/noa/supermarket/target/debug/build/sdl2-sys-a066b7c4c26b1a95/out/build/CMakeFiles/SDL2-static.dir
+/home/noa/supermarket/target/debug/build/sdl2-sys-a066b7c4c26b1a95/out/build/CMakeFiles/SDL2_test.dir
+/home/noa/supermarket/target/debug/build/sdl2-sys-a066b7c4c26b1a95/out/build/CMakeFiles/uninstall.dir
+/home/noa/supermarket/target/debug/build/sdl2-sys-a066b7c4c26b1a95/out/build/CMakeFiles/edit_cache.dir
+/home/noa/supermarket/target/debug/build/sdl2-sys-a066b7c4c26b1a95/out/build/CMakeFiles/rebuild_cache.dir
+/home/noa/supermarket/target/debug/build/sdl2-sys-a066b7c4c26b1a95/out/build/CMakeFiles/list_install_components.dir
+/home/noa/supermarket/target/debug/build/sdl2-sys-a066b7c4c26b1a95/out/build/CMakeFiles/install.dir
+/home/noa/supermarket/target/debug/build/sdl2-sys-a066b7c4c26b1a95/out/build/CMakeFiles/install/local.dir
+/home/noa/supermarket/target/debug/build/sdl2-sys-a066b7c4c26b1a95/out/build/CMakeFiles/install/strip.dir
