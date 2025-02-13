@@ -19,7 +19,7 @@ impl GlobalVariable {
                 x: 20,
                 y: 20,
                 dir_vector: (0, 0),
-                speed: 900,
+                speed: 3700,
             },
         })
     }
