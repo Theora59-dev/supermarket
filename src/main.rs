@@ -1,14 +1,16 @@
+mod camera;
 mod constructor;
 mod consts;
 mod events;
 mod main_loop;
 mod player;
+mod texture;
 
 use constructor::*;
 use consts::*;
+use texture::*;
 
 use sdl2::event::Event;
-use sdl2::image::LoadTexture;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
 use sdl2::video::Window;
@@ -37,16 +39,24 @@ pub fn main() {
     canvas.clear();
     canvas.present();
 
-    let texture_creator = canvas.texture_creator(); // Crée un nouvel objet pour créer des textures
-    let texture_list = vec![texture_creator
-        .load_texture_bytes(TEXTURE) // Charge une texture depuis le binaire
-        .unwrap()];
+    // Création un nouvel objet pour créer des textures
+    let texture_creator = canvas.texture_creator();
+    let mut world_texture_list = CustomObjectGroup::new();
+    let mut player_texture = CustomObjectGroup::new();
+    let player_coord = (800 / 2, 600 / 2);
 
     // Le constructeur contient et doit contenir toutes les variables globales du programme
-    let mut global_variable = GlobalVariable::new(sdl_context, &canvas).unwrap();
+    let mut global_variable = GlobalVariable::new(sdl_context, &canvas, player_coord).unwrap();
+    player_texture.add_object(
+        &texture_creator,
+        player_coord.0,
+        player_coord.1,
+        50,
+        TEXTURE,
+    );
 
-    let texture_setup = (texture_list, &texture_creator);
-
+    world_texture_list.add_object(&texture_creator, 600, 600, 5000, MAP);
+    let texture_setup = (world_texture_list, &texture_creator, player_texture);
     let mut constructor = (&mut global_variable, texture_setup);
 
     // Boucle de jeu
@@ -76,7 +86,6 @@ pub fn main() {
             }
         }
 
-        //println!("FPS: {}", 1.0 / constructor.0.dt);
         // Exécution de la boucle de jeu
         main_loop::game_loop(&mut canvas, &mut constructor);
 

@@ -1,33 +1,32 @@
 use crate::player::move_player;
+use crate::texture::*;
 use crate::GlobalVariable;
 
-use sdl2::rect::Rect;
-use sdl2::render::{Canvas, Texture, TextureCreator};
-
+use sdl2::render::{Canvas, TextureCreator};
 use sdl2::video::{Window, WindowContext};
 
 pub fn game_loop(
     canvas: &mut Canvas<Window>,
-    construct: &mut (
+    mut construct: &mut (
         &mut GlobalVariable,
-        (Vec<Texture>, &TextureCreator<WindowContext>),
+        (
+            CustomObjectGroup<'_>,
+            &TextureCreator<WindowContext>,
+            CustomObjectGroup<'_>,
+        ),
     ),
 ) {
-    construct.0.i += 1;
+    // Appelle la fonction de déplacement du joueur
+    move_player(&mut construct);
 
-    move_player(&mut construct.0); // Déplace le joueur en fonction des inputs
-    let texture = &construct.1 .0[0];
-    // Dessine la texture sur le canvas par rapport aux changements de coordonnés effectués avec move_player()
-    canvas
-        .copy(
-            &texture,
-            None,
-            Rect::new(
-                construct.0.player.x,
-                construct.0.player.y,
-                ((texture.query().width) as f32 * 0.1) as u32,
-                ((texture.query().height) as f32 * 0.1) as u32,
-            ),
-        )
-        .unwrap();
+    // Affiche les FPS
+    println!("{}", (1.0 / construct.0.dt) as u32);
+
+    // Dessine tous les objets du monde (contenu dans le groupe de textures)
+    let all_objects_group = &construct.1 .0;
+    all_objects_group.draw_all_objects(canvas, (construct.0.player.x, construct.0.player.y));
+
+    // Met à jour le joueur par rapport à la caméra
+    let camera = &mut construct.0.camera;
+    camera.update(&construct.1 .2, canvas, construct.0.player.clone());
 }
