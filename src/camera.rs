@@ -1,5 +1,4 @@
 use crate::player::*;
-use crate::texture::*;
 use sdl2::render::Canvas;
 use sdl2::video::Window;
 
@@ -14,18 +13,13 @@ impl Camera {
     pub fn new(x: i32, y: i32, w: u32, h: u32) -> Self {
         Camera { x, y, w, h }
     }
-    pub fn update(
-        &mut self,
-        custom_object_group: &CustomObjectGroup,
-        canvas: &mut Canvas<Window>,
-        player_data: Player,
-    ) {
-        // Déplacement de la caméra par rapport au joueur
+    pub fn update(&mut self, canvas: &mut Canvas<Window>, player_data: &Player) {
+        (self.w, self.h) = canvas.window().size();
+
         self.x = player_data.x + (self.w / 2) as i32;
         self.y = player_data.y + (self.h / 2) as i32;
 
-        println!("Player position: ({}, {})", player_data.x, player_data.y);
-
-        custom_object_group.draw_all_objects(canvas, (0, 0)); // Affiche les objets du joueur
+        // Affiche les objets du joueur
+        player_data.textures.draw_all_objects(canvas, (0, 0));
     }
 }

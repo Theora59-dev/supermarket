@@ -3,7 +3,7 @@ use sdl2::video::{FullscreenType, Window};
 pub fn switch_fullscreen_mode(window: &mut Window) {
     // Vérifie l'état actuel de plein écran
     match window.fullscreen_state() {
-        FullscreenType::Desktop => {
+        FullscreenType::True => {
             // Désactive le plein écran
             window
                 .set_fullscreen(FullscreenType::Off)
@@ -12,7 +12,7 @@ pub fn switch_fullscreen_mode(window: &mut Window) {
         FullscreenType::Off => {
             // Active le plein écran
             window
-                .set_fullscreen(FullscreenType::Desktop)
+                .set_fullscreen(FullscreenType::True)
                 .expect("Impossible d'activer le plein écran")
         }
         _ => println!(""),

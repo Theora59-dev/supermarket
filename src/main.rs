@@ -7,7 +7,6 @@ mod player;
 mod texture;
 
 use constructor::*;
-use consts::*;
 use texture::*;
 
 use sdl2::event::Event;
@@ -25,14 +24,20 @@ pub fn main() {
 
     // Création de la fenêtre du jeu
     let mut window: Window = video_subsystem
-        .window("Supermarket", 800, 600)
+        .window("Supermarket", 700, 700)
         .position_centered()
         .resizable()
         .build()
         .unwrap();
 
     // Création de l'écran de jeu
-    let mut canvas = window.clone().into_canvas().build().unwrap();
+    let mut canvas = window
+        .clone()
+        .into_canvas()
+        .present_vsync()
+        .accelerated()
+        .build()
+        .unwrap();
 
     // Initialisation de la couleur de fond
     canvas.set_draw_color(Color::RGB(0, 0, 0));
@@ -41,37 +46,29 @@ pub fn main() {
 
     // Création un nouvel objet pour créer des textures
     let texture_creator = canvas.texture_creator();
-    let mut world_texture_list = CustomObjectGroup::new();
-    let mut player_texture = CustomObjectGroup::new();
-    let player_coord = (800 / 2, 600 / 2);
 
-    // Le constructeur contient et doit contenir toutes les variables globales du programme
-    let mut global_variable = GlobalVariable::new(sdl_context, &canvas, player_coord).unwrap();
-    player_texture.add_object(
-        &texture_creator,
-        player_coord.0,
-        player_coord.1,
-        50,
-        TEXTURE,
+    let player_coord = (
+        (canvas.window().size().0 / 2) as i32,
+        (canvas.window().size().1 / 2) as i32,
     );
 
-    world_texture_list.add_object(&texture_creator, 600, 600, 5000, MAP);
-    let texture_setup = (world_texture_list, &texture_creator, player_texture);
-    let mut constructor = (&mut global_variable, texture_setup);
+    // Le constructeur contient et doit contenir toutes les variables globales du programme
+    let mut global_variable =
+        GlobalVariable::new(sdl_context, &canvas, player_coord, &texture_creator).unwrap();
 
     // Boucle de jeu
     'running: loop {
         let now = Instant::now();
         let delta_time = now.duration_since(last_time);
         last_time = now;
-        constructor.0.dt = delta_time.as_secs_f32();
+        global_variable.dt = delta_time.as_secs_f32();
 
         // Effacement de l'écran de jeu
         canvas.set_draw_color(Color::RGB(0, 0, 0));
         canvas.clear();
 
         // Gestion des événements
-        for event in constructor.0.event_pump.poll_iter() {
+        for event in global_variable.event_pump.poll_iter() {
             match event {
                 Event::Quit { .. }
                 | Event::KeyDown {
@@ -87,7 +84,7 @@ pub fn main() {
         }
 
         // Exécution de la boucle de jeu
-        main_loop::game_loop(&mut canvas, &mut constructor);
+        main_loop::game_loop(&mut canvas, &mut global_variable);
 
         // Mise à jour de l'écran de jeu
         canvas.present();
