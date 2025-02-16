@@ -1,6 +1,9 @@
 use crate::CustomObjectGroup;
 
 use sdl2::keyboard::Scancode;
+use sdl2::rect::Rect;
+use sdl2::render::Canvas;
+use sdl2::video::Window;
 use sdl2::EventPump;
 
 pub struct Player<'a> {
@@ -36,6 +39,23 @@ impl<'a> Player<'a> {
             // Mettre à jour les positions du joueur en fonction de la vitesse et du vecteur normalisé
             self.x += (normalized_dir.0 * self.speed as f32 * dt) as i32;
             self.y += (normalized_dir.1 * self.speed as f32 * dt) as i32;
+        }
+    }
+
+    pub fn draw_player(&self, canvas: &mut Canvas<Window>, screen_offset: (i32, i32)) {
+        for object in &self.textures.objects {
+            canvas
+                .copy(
+                    &self.textures.textures[0],
+                    None,
+                    Rect::new(
+                        screen_offset.0,    // Position X à offset
+                        screen_offset.1,    // Position Y à offset
+                        object.size as u32, // Largeur de l'objet
+                        object.size as u32, // Hauteur de l'objet
+                    ),
+                )
+                .unwrap();
         }
     }
 }

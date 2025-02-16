@@ -5,15 +5,15 @@ use sdl2::video::{Window, WindowContext};
 use std::rc::Rc;
 
 pub struct CustomObject<'a> {
-    x: i32,                   // Position X du personnage
-    y: i32,                   // Position Y du personnage
-    size: i32,                // Taille du personnage
+    pub x: i32,               // Position X du personnage
+    pub y: i32,               // Position Y du personnage
+    pub size: i32,            // Taille du personnage
     texture: Rc<Texture<'a>>, // Texture du personnage
 }
 
 pub struct CustomObjectGroup<'a> {
-    objects: Vec<CustomObject<'a>>, // Liste de tous les objets
-    textures: Vec<Rc<Texture<'a>>>, // Liste de toutes les textures
+    pub objects: Vec<CustomObject<'a>>, // Liste de tous les objets
+    pub textures: Vec<Rc<Texture<'a>>>, // Liste de toutes les textures
 }
 
 impl<'a> CustomObjectGroup<'a> {
@@ -54,10 +54,10 @@ impl<'a> CustomObjectGroup<'a> {
                     &object.texture,
                     None,
                     Rect::new(
-                        object.x - offset.0, // Position X à offset
-                        object.y - offset.1, // Position Y à offset
-                        object.size as u32,  // Largeur de l'objet
-                        object.size as u32,  // Hauteur de l'objet
+                        object.x - offset.0 + canvas.window().size().0 as i32 / 2, // Position X à offset
+                        object.y - offset.1 + canvas.window().size().1 as i32 / 2, // Position Y à offset
+                        object.size as u32, // Largeur de l'objet
+                        object.size as u32, // Hauteur de l'objet
                     ),
                 )
                 .unwrap();

@@ -20,6 +20,6 @@ impl Camera {
         self.y = player_data.y + (self.h / 2) as i32;
 
         // Affiche les objets du joueur
-        player_data.textures.draw_all_objects(canvas, (0, 0));
+        player_data.draw_player(canvas, ((self.w / 2) as i32, (self.h / 2) as i32));
     }
 }
