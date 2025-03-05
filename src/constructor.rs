@@ -7,6 +7,7 @@ use sdl2::EventPump;
 use sdl2::Sdl;
 
 use crate::consts::*;
+use crate::render::Renderer;
 
 use sdl2::render::TextureCreator;
 use sdl2::video::WindowContext;
@@ -18,6 +19,7 @@ pub struct GlobalVariable<'a> {
     pub camera: Camera,
     pub _texture_creator: &'a TextureCreator<WindowContext>,
     pub world: CustomObjectGroup<'a>,
+    pub renderer: Renderer,
 }
 
 impl<'a> GlobalVariable<'a> {
@@ -32,12 +34,13 @@ impl<'a> GlobalVariable<'a> {
             main_texture_creator,
             player_pos.0,
             player_pos.1,
-            50,
+            1,
+            (50, 50),
             TEXTURE,
         );
 
         let mut world_textures = CustomObjectGroup::new();
-        world_textures.add_object(&main_texture_creator, 600, 600, 5000, MAP);
+        world_textures.add_object(&main_texture_creator, 0, 0, 0, (5000, 5000), MAP);
 
         Ok(Self {
             dt: 0.0, // Initialisation de dt à 0.0 pour éviter de futures bugs
@@ -45,8 +48,8 @@ impl<'a> GlobalVariable<'a> {
             _texture_creator: main_texture_creator,
             world: world_textures,
             player: Player {
-                x: player_pos.0 + 800 / 2,
-                y: player_pos.1 + 600 / 2,
+                x: player_pos.0,
+                y: player_pos.1,
                 dir_vector: (0, 0), // Vecteur directionnel du joueur
                 speed: 5200,        // Vitesse du joueur
                 textures: player_textures,
@@ -57,6 +60,12 @@ impl<'a> GlobalVariable<'a> {
                 canvas.window().size().0,
                 canvas.window().size().1,
             ),
+            renderer: Renderer {
+                canvas_size: (canvas.window().size().0, canvas.window().size().1),
+                player_size: (50, 50),
+                camera_position: (0, 0),
+                center_offset: (0, 0),
+            },
         })
     }
 }

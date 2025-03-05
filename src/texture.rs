@@ -5,10 +5,11 @@ use sdl2::video::{Window, WindowContext};
 use std::rc::Rc;
 
 pub struct CustomObject<'a> {
-    pub x: i32,               // Position X du personnage
-    pub y: i32,               // Position Y du personnage
-    pub size: i32,            // Taille du personnage
-    texture: Rc<Texture<'a>>, // Texture du personnage
+    pub x: i32,                   // Position X du personnage
+    pub y: i32,                   // Position Y du personnage
+    pub z: usize,                 // Ordre d'affichage
+    pub size: (i32, i32),         // Taille du personnage
+    pub texture: Rc<Texture<'a>>, // Texture du personnage
 }
 
 pub struct CustomObjectGroup<'a> {
@@ -29,7 +30,8 @@ impl<'a> CustomObjectGroup<'a> {
         texture_creator: &'a TextureCreator<WindowContext>,
         x: i32,
         y: i32,
-        size: i32,
+        z: usize,
+        size: (i32, i32),
         texture_from_bytes: &[u8],
     ) {
         let texture = Rc::new(
@@ -42,6 +44,7 @@ impl<'a> CustomObjectGroup<'a> {
         self.objects.push(CustomObject {
             x,                            // Position X de l'objet
             y,                            // Position Y de l'objet
+            z,                            // Ordre d'affichage
             size,                         // taille de l'objet
             texture: Rc::clone(&texture), // Texture de l'objet
         });
@@ -56,8 +59,8 @@ impl<'a> CustomObjectGroup<'a> {
                     Rect::new(
                         object.x - offset.0 + canvas.window().size().0 as i32 / 2, // Position X à offset
                         object.y - offset.1 + canvas.window().size().1 as i32 / 2, // Position Y à offset
-                        object.size as u32, // Largeur de l'objet
-                        object.size as u32, // Hauteur de l'objet
+                        object.size.0 as u32, // Largeur de l'objet
+                        object.size.1 as u32, // Hauteur de l'objet
                     ),
                 )
                 .unwrap();

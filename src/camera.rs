@@ -16,10 +16,12 @@ impl Camera {
     pub fn update(&mut self, canvas: &mut Canvas<Window>, player_data: &Player) {
         (self.w, self.h) = canvas.window().size();
 
-        self.x = player_data.x + (self.w / 2) as i32;
-        self.y = player_data.y + (self.h / 2) as i32;
+        self.x = player_data.x; // + (self.w / 2) as i32;
+        self.y = player_data.y; // + (self.h / 2) as i32;
+
+        //println!("Camera x: {} y: {}", self.x, self.y);
 
         // Affiche les objets du joueur
-        player_data.draw_player(canvas, ((self.w / 2) as i32, (self.h / 2) as i32));
+        // player_data.draw_player(canvas, ((self.w / 2) as i32, (self.h / 2) as i32));
     }
 }

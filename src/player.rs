@@ -40,22 +40,7 @@ impl<'a> Player<'a> {
             self.x += (normalized_dir.0 * self.speed as f32 * dt) as i32;
             self.y += (normalized_dir.1 * self.speed as f32 * dt) as i32;
         }
-    }
 
-    pub fn draw_player(&self, canvas: &mut Canvas<Window>, screen_offset: (i32, i32)) {
-        for object in &self.textures.objects {
-            canvas
-                .copy(
-                    &self.textures.textures[0],
-                    None,
-                    Rect::new(
-                        screen_offset.0,    // Position X à offset
-                        screen_offset.1,    // Position Y à offset
-                        object.size as u32, // Largeur de l'objet
-                        object.size as u32, // Hauteur de l'objet
-                    ),
-                )
-                .unwrap();
-        }
+        //println!("Player x: {} y: {}", self.x, self.y);
     }
 }
